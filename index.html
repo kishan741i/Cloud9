@@ -3,354 +3,300 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud-9-2023</title>
+    <title>Cloud 9 | Digital</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --neon-cyan: #00f2ff;
-            --bg-dark: #051118;
-            --font-tech: 'Orbitron', sans-serif;
+            --accent: #6366f1;
+            --accent-glow: rgba(99, 102, 241, 0.4);
+            --bg-deep: #0b0e14;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --success: #22c55e; 
+            --danger: #ef4444;  
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-dark);
-            color: white;
-            font-family: var(--font-tech);
-            height: 100vh;
-            overflow: hidden;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding-top: 130px;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 35%),
+                radial-gradient(circle at 100% 100%, rgba(168, 85, 247, 0.1) 0%, transparent 35%);
+        }
+
+        header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 75px;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
+            background: rgba(11, 14, 20, 0.85);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
         }
 
-        .bg-glow {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                radial-gradient(circle at 10% 10%, rgba(0, 242, 255, 0.15) 0%, transparent 45%),
-                radial-gradient(circle at 90% 90%, rgba(0, 242, 255, 0.15) 0%, transparent 45%);
-            z-index: -1;
+        .stats-bar {
+            position: fixed;
+            top: 75px; left: 0; right: 0;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.05);
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            z-index: 999;
+            backdrop-filter: blur(5px);
         }
+        .stat-item i { color: var(--accent); margin-right: 6px; }
+        .stat-divider { width: 1px; height: 15px; background: var(--glass-border); }
 
-        #homepage {
-            text-align: center;
-            z-index: 10;
-            padding: 20px;
-        }
-
-        .glow-title {
-            font-size: clamp(1.8rem, 8vw, 4.5rem);
-            font-weight: 900;
-            text-shadow: 0 0 20px var(--neon-cyan);
-            letter-spacing: clamp(4px, 2vw, 10px);
-            margin-bottom: 15px;
-            text-transform: uppercase;
-        }
-
-        .subtitle {
-            font-size: clamp(0.8rem, 2vw, 1.1rem);
-            color: rgba(255, 255, 255, 0.6);
+        .logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
             letter-spacing: 4px;
             text-transform: uppercase;
-            margin-bottom: 40px;
+            background: linear-gradient(to right, #fff 20%, var(--accent) 50%, #fff 80%);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 1.5s linear infinite;
         }
 
-        .home-btn-container {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+        @keyframes shine { to { background-position: 200% center; } }
 
-        .init-btn {
-            padding: 15px 35px;
-            background: var(--neon-cyan);
-            color: #000;
-            border: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 242, 255, 0.4);
-            transition: 0.3s;
-            font-size: 0.9rem;
-            font-family: var(--font-tech);
-        }
-
-        .init-btn:hover {
-            box-shadow: 0 0 40px var(--neon-cyan);
-            transform: scale(1.05);
-        }
-
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-dark);
-            z-index: 100;
-            flex-direction: column;
-        }
-
-        .navbar {
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
-            background: rgba(5, 17, 24, 0.95);
-        }
-
-        /* --- Restored Slider Container --- */
-        .nav-links-wrapper {
-            flex: 1;
-            overflow-x: auto;
-            white-space: nowrap;
-            scrollbar-width: none; /* Firefox */
-            margin: 0 10px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .nav-links-wrapper::-webkit-scrollbar { display: none; } /* Chrome/Safari */
-
-        .nav-links {
-            display: inline-flex;
-            gap: 10px;
-            list-style: none;
-            padding: 5px 0;
-        }
-
-        .nav-item {
-            display: none; /* Controlled by JS */
-            padding: 10px 20px;
-            font-size: 0.75rem;
-            cursor: pointer;
-            color: var(--neon-cyan);
-            text-transform: uppercase;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid transparent;
-            border-radius: 4px;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-
-        .nav-item.active {
-            background: var(--neon-cyan);
-            color: #000;
-            box-shadow: 0 0 15px var(--neon-cyan);
-        }
-
-        .nav-item:hover:not(.active) {
-            background: rgba(0, 242, 255, 0.1);
-            border-color: var(--neon-cyan);
-        }
-
-        .close-btn {
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--neon-cyan);
-            padding-left: 10px;
-        }
-
-        .content-body {
-            flex: 1;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            overflow-y: auto;
-        }
-
-        .section { display: none; width: 100%; }
-        .section.active { display: block; animation: sectionSlide 0.5s ease forwards; }
-
-        @keyframes sectionSlide { 
-            from { opacity: 0; transform: translateX(20px); } 
-            to { opacity: 1; transform: translateX(0); } 
-        }
-
-        .section-title {
-            font-size: clamp(1.5rem, 5vw, 2.5rem);
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px var(--neon-cyan);
-            text-transform: uppercase;
-        }
-
-        .section-text {
-            max-width: 700px;
-            line-height: 1.6;
-            color: #ccc;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: clamp(1rem, 2vw, 1.2rem);
+        .container {
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
         }
 
-        .btn-group {
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            margin-bottom: 25px;
+        }
+
+        .tech-stack {
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 30px;
+            gap: 6px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
+        .tech-tag {
+            font-size: 0.6rem;
+            padding: 3px 8px;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid var(--accent-glow);
+            border-radius: 20px;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
 
-        /* E-Library List Format */
-        .btn-list {
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .project-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px; 
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            align-items: center;
-            margin-top: 25px;
+            gap: 12px; 
         }
 
-        .project-link {
-            display: inline-block;
-            color: var(--neon-cyan);
-            text-decoration: none;
-            border: 1px solid var(--neon-cyan);
-            padding: 12px 25px;
-            transition: 0.3s;
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            min-width: 220px;
-            cursor: pointer;
-            background: rgba(0, 242, 255, 0.1);
-            font-family: var(--font-tech);
+        .project-item h3 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; color: var(--accent); }
+        .project-item p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; margin-bottom: 10px; }
+
+        /* --- Pulse Effect --- */
+        .pulse-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .red-dot { background: var(--danger); box-shadow: 0 0 8px var(--danger); animation: pulse-red-orig 2s infinite; }
+        .green-dot { background: var(--success); box-shadow: 0 0 8px var(--success); animation: pulse-green-orig 2s infinite; }
+
+        @keyframes pulse-red-orig {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
-        .project-link:hover {
-            background: var(--neon-cyan);
-            color: black;
-            box-shadow: 0 0 15px var(--neon-cyan);
+        @keyframes pulse-green-orig {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
 
-        .live-link { background: rgba(0, 242, 255, 0.2); }
+        .news-feed { display: flex; flex-direction: column; gap: 15px; }
+        .news-item { padding: 12px; border-left: 2px solid var(--glass-border); transition: 0.3s; }
+        .news-item h4 { font-size: 0.85rem; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
+        .news-item p { font-size: 0.75rem; color: var(--text-dim); }
 
-        @media (max-width: 768px) {
-            .nav-links-wrapper { justify-content: flex-start; }
-            .nav-links { padding-left: 10px; }
+        /* --- Library Styles --- */
+        .library-item { margin-bottom: 15px; }
+        .library-item p { font-size: 0.75rem; color: var(--text-dim); margin-top: 5px; margin-left: 5px; }
+
+        .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center; }
+        .btn-outline { background: transparent; border: 1px solid var(--glass-border); color: var(--text-main); width: 100%; max-width: 100%; display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 10px 15px; border-radius: 12px; transition: 0.3s; cursor: pointer; text-decoration: none; font-family: 'Outfit', sans-serif; font-size: 0.8rem; }
+        .btn-outline:hover { background: var(--glass); border-color: var(--accent); }
+        .btn-primary { background: var(--accent); color: white; width: 100%; max-width: 240px; box-shadow: 0 4px 15px var(--accent-glow); padding: 10px; border-radius: 12px; text-decoration: none; display: inline-flex; justify-content: center; align-items: center; gap: 10px; font-size: 0.8rem; font-weight: 600; }
+
+        footer {
+            padding: 60px 20px 40px;
+            text-align: center;
+            opacity: 0.6;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 0.8px;
+            text-transform: lowercase;
         }
+
+        @media (max-width: 992px) { .container { grid-template-columns: 1fr; } body { padding-top: 150px; } }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
+    <header>
+        <div class="logo">CLOUD 9</div>
+    </header>
 
-    <div id="homepage">
-        <h1 class="glow-title">CLOUD 9</h1>
-        <p class="subtitle">Personal Repository / Kishan</p>
-        <div class="home-btn-container">
-            <button class="init-btn" onclick="openNav('work')">Explore Work</button>
-            <button class="init-btn" onclick="openNav('docs')">My Documents</button>
-        </div>
+    <div class="stats-bar">
+        <div class="stat-item"><i class="fa-solid fa-code-branch"></i> 3 REPOSITORIES</div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><i class="fa-solid fa-file-pdf"></i> 150+ DOCUMENTS</div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><i class="fa-solid fa-circle-check"></i> v7.4 OPERATIONAL</div>
     </div>
 
-    <div id="overlay">
-        <header class="navbar">
-            <div style="font-weight:bold; letter-spacing: 2px; font-size: 0.8rem;">REPO</div>
-            <div class="nav-links-wrapper">
-                <ul class="nav-links">
-                    <li id="nav-habit" class="nav-item work-item" onclick="showSection('habit', this)">Habit Tracker</li>
-                    <li id="nav-notes" class="nav-item work-item" onclick="showSection('notes', this)">Notes App</li>
-                    <li id="nav-news" class="nav-item work-item" onclick="showSection('news', this)">News Portal</li>
-                    <li id="nav-docs" class="nav-item docs-item" onclick="showSection('docs', this)">E-Library</li>
-                </ul>
-            </div>
-            <div class="close-btn" onclick="closeNav()">&times;</div>
-        </header>
+    <div class="container">
+        <main class="main-content">
+            <section class="card">
+                <h2 style="font-family: 'Outfit'; letter-spacing: 1px; margin-bottom: 25px;">REPOSITORY FEEDS</h2>
+                <div class="project-grid">
+                    
+                    <div class="project-item">
+                        <div class="tech-stack">
+                            <span class="tech-tag">HTML5</span><span class="tech-tag">CSS3</span><span class="tech-tag">JS</span>
+                        </div>
+                        <h3>Habit Tracker Pro</h3>
+                        <p>A productivity-focused application designed to track and manage your daily goals effectively.</p>
+                        <div class="btn-group">
+                            <a href="https://kishan741i.github.io/Habit-tracker-Pro/" target="_blank" class="btn-primary"><i class="fa-solid fa-rocket"></i> Live Project</a>
+                            <a href="https://github.com/kishan741i/Habit-tracker-Pro" target="_blank" class="btn-outline" style="justify-content:center;"><i class="fa-brands fa-github"></i> Repository</a>
+                        </div>
+                    </div>
+                    
+                    <div class="project-item">
+                        <div class="tech-stack">
+                            <span class="tech-tag">Bootstrap 5</span><span class="tech-tag">PHP</span><span class="tech-tag">MySQL</span>
+                        </div>
+                        <h3>Notes Application</h3>
+                        <p>A minimalist notes management tool built with a modern glassmorphism UI for a sleek experience.</p>
+                        <div class="btn-group">
+                            <a href="https://github.com/kishan741i/notes_app" target="_blank" class="btn-outline" style="justify-content:center;"><i class="fa-brands fa-github"></i> Repository</a>
+                        </div>
+                    </div>
 
-        <main class="content-body">
-            <div id="habit" class="section">
-                <h2 class="section-title">Habit Tracker Pro</h2>
-                <p class="section-text">A productivity-focused application designed to track and manage your daily goals effectively. It features a clean interface to visualize your progress and maintain consistency in your routine.</p>
-                <div class="btn-group">
-                    <a href="https://github.com/kishan741i/Habit-tracker-Pro" target="_blank" class="project-link">View Repository</a>
-                    <a href="https://kishan741i.github.io/Habit-tracker-Pro/" target="_blank" class="project-link live-link">Live Project</a>
-                </div>
-            </div>
+                    <div class="project-item">
+                        <div class="tech-stack">
+                            <span class="tech-tag">Bootstrap 5</span><span class="tech-tag">PHP</span><span class="tech-tag">MySQL</span>
+                        </div>
+                        <h3>News Portal</h3>
+                        <p>A real-time news aggregation system that fetches the latest global updates using high-performance APIs.</p>
+                        <div class="btn-group">
+                            <a href="https://github.com/kishan741i/news-site" target="_blank" class="btn-outline" style="justify-content:center;"><i class="fa-brands fa-github"></i> Repository</a>
+                        </div>
+                    </div>
 
-            <div id="notes" class="section">
-                <h2 class="section-title">Notes Application</h2>
-                <p class="section-text">A minimalist notes management tool built with a modern glassmorphism UI for a sleek experience. Organize your thoughts quickly and access your data through an intuitive and responsive design.</p>
-                <div class="btn-group">
-                    <a href="https://github.com/kishan741i/notes_app" target="_blank" class="project-link">View Repository</a>
                 </div>
-            </div>
-
-            <div id="news" class="section">
-                <h2 class="section-title">News Portal</h2>
-                <p class="section-text">A real-time news aggregation system that fetches the latest global updates using high-performance APIs. Stay informed with categorized news delivered through a high-tech and mobile-friendly dashboard.</p>
-                <div class="btn-group">
-                    <a href="https://github.com/kishan741i/news-site" target="_blank" class="project-link">View Repository</a>
-                </div>
-            </div>
-
-            <div id="docs" class="section">
-                <h2 class="section-title">E-Library</h2>
-                <p class="section-text">Explore a comprehensive collection of academic resources directly through your Google Drive application. Access notice boards, practical files, and previous year papers curated specifically for your curriculum.</p>
-                <div class="btn-list">
-                    <button onclick="openInDrive('1wZYNzzs49yKQ8ybYzpvS7Uw8noiIRu1z')" class="project-link">Notice Board</button>
-                    <button onclick="openInDrive('1KzyQ0xFFbIDmtj6RTyJIEMy7w8yKc_7H')" class="project-link">Lab & Practicals</button>
-                    <button onclick="openInDrive('1K268y0_fgaRC-TQ52ZGOVQYRiSlbnbfL')" class="project-link">PYQ Archive</button>
-                    <button onclick="openInDrive('1mlmmji-KnSD0S3x8cvMiyA944-uoCUqj')" class="project-link">Resources</button>
-                </div>
-            </div>
+            </section>
         </main>
+
+        <aside class="sidebar">
+            <section class="card">
+                <h3 style="font-family: 'Outfit'; margin-bottom: 25px; font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px; text-align: left;">E-LIBRARY</h3>
+                <div class="news-feed">
+                    <div class="library-item">
+                        <button onclick="openInDrive('1wZYNzzs49yKQ8ybYzpvS7Uw8noiIRu1z')" class="btn-outline"><i class="fa-solid fa-bullhorn" style="color:var(--accent)"></i> Notice Board</button>
+                        <p>Official notices and academic announcements.</p>
+                    </div>
+                    <div class="library-item">
+                        <button onclick="openInDrive('1KzyQ0xFFbIDmtj6RTyJIEMy7w8yKc_7H')" class="btn-outline"><i class="fa-solid fa-microchip" style="color:var(--accent)"></i> Lab & Practicals</button>
+                        <p>Lab manuals and practical documentation.</p>
+                    </div>
+                    <div class="library-item">
+                        <button onclick="openInDrive('1K268y0_fgaRC-TQ52ZGOVQYRiSlbnbfL')" class="btn-outline"><i class="fa-solid fa-file-lines" style="color:var(--accent)"></i> PYQ Archive</button>
+                        <p>Previous year question papers collection.</p>
+                    </div>
+                    <div class="library-item">
+                        <button onclick="openInDrive('1mlmmji-KnSD0S3x8cvMiyA944-uoCUqj')" class="btn-outline"><i class="fa-solid fa-folder-tree" style="color:var(--accent)"></i> Resources</button>
+                        <p>Essential tools and learning materials.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3 style="font-family: 'Outfit'; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px;">LATEST UPDATES</h3>
+                <div class="news-feed">
+                    <div class="news-item">
+                        <h4><span class="pulse-dot red-dot"></span>PYQs</h4>
+                        <p>Semester 6 final exam PDF updated in E-library. 28 March 2026</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card">
+                <h3 style="font-family: 'Outfit'; margin-bottom: 20px; font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px;">FUTURE ROADMAP</h3>
+                <div class="news-feed">
+                    <div class="news-item">
+                        <h4><span class="pulse-dot green-dot"></span> PHP Theory</h4>
+                        <p>Detailed conceptual notes coming soon.</p>
+                    </div>
+                    <div class="news-item">
+                        <h4><span class="pulse-dot green-dot"></span> PHP Practical</h4>
+                        <p>Complete lab exercises and manual guide.</p>
+                    </div>
+                    <div class="news-item">
+                        <h4><span class="pulse-dot green-dot"></span> ASP.NET Practical</h4>
+                        <p>Modern .NET framework practical guides.</p>
+                    </div>
+                </div>
+            </section>
+        </aside>
     </div>
+
+    <footer>
+        &copy; 2026 cloud 9 digital - all right reserved.
+    </footer>
 
     <script>
-        function openNav(mode) {
-            document.getElementById('homepage').style.display = 'none';
-            document.getElementById('overlay').style.display = 'flex';
-            
-            document.querySelectorAll('.nav-item').forEach(el => el.style.display = 'none');
-
-            if (mode === 'work') {
-                document.querySelectorAll('.work-item').forEach(el => el.style.display = 'inline-block');
-                showSection('habit', document.getElementById('nav-habit'));
-            } else if (mode === 'docs') {
-                document.querySelectorAll('.docs-item').forEach(el => el.style.display = 'inline-block');
-                showSection('docs', document.getElementById('nav-docs'));
-            }
-        }
-
-        function closeNav() {
-            document.getElementById('overlay').style.display = 'none';
-            document.getElementById('homepage').style.display = 'block';
-        }
-
-        function showSection(id, el) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            document.getElementById(id).classList.add('active');
-            if(el) {
-                el.classList.add('active');
-                // Scroll the menu to the active item smoothly
-                el.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-            }
-        }
-
-        function openInDrive(id) {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            const webUrl = `https://drive.google.com/open?id=${id}`;
-
-            if (/android/i.test(userAgent)) {
-                window.location.href = `intent://drive.google.com/open?id=${id}#Intent;scheme=https;package=com.google.android.apps.docs;end`;
-            } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                window.location.href = `googledrive://${webUrl}`;
-                setTimeout(() => { window.location.href = webUrl; }, 500);
-            } else {
-                window.open(webUrl, '_blank');
-            }
-        }
+        function openInDrive(id) { window.open(`https://drive.google.com/open?id=${id}`, '_blank'); }
     </script>
 </body>
 </html>
