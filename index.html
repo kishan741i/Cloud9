@@ -492,29 +492,32 @@
     <script>
         function openInDrive(id) { window.open(`https://drive.google.com/open?id=${id}`, '_blank'); }
 
-        // Maintenance Logic (Updated to 9 AM - 5 PM)
         function checkMaintenance() {
             const now = new Date();
-            const day = now.getDay(); // 0 = Sunday
-            const hours = now.getHours();
-
-            // Sunday AND Time between 9 AM (9:00) and 5 PM (17:00)
-            if (day === 0 && hours >= 9 && hours < 17) {
+            const day = now.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+        
+            // NAYA LOGIC: Agar din Sunday (0) nahi hai, to maintenance dikhao
+            if (day !== 0) {
                 document.getElementById('maintenance-screen').style.display = 'flex';
                 document.body.style.overflow = 'hidden';
-
-                const target = new Date();
-                target.setHours(17, 0, 0, 0); // Countdown until 5 PM
-                const diff = target - now;
-
-                const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        
+                // Countdown logic: Next Sunday 00:00:00 tak ka time
+                const nextSunday = new Date();
+                nextSunday.setDate(now.getDate() + (7 - day) % 7);
+                nextSunday.setHours(0, 0, 0, 0);
+        
+                const diff = nextSunday - now;
+        
+                const h = Math.floor((diff / (1000 * 60 * 60)));
                 const m = Math.floor((diff / (1000 * 60)) % 60);
                 const s = Math.floor((diff / 1000) % 60);
-
+        
+                // Hours ko display karne ke liye (agar 24 se zyada hain to bhi dikhayega)
                 document.getElementById('hours').innerText = String(h).padStart(2, '0');
                 document.getElementById('mins').innerText = String(m).padStart(2, '0');
                 document.getElementById('secs').innerText = String(s).padStart(2, '0');
             } else {
+                // Sunday ko site open rahegi
                 document.getElementById('maintenance-screen').style.display = 'none';
                 document.body.style.overflow = 'auto';
             }
