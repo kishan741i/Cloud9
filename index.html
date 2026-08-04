@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cloud 9 | Digital</title>
+    <title>testing | Cloud 9</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --accent: #6366f1;
-            --accent-glow: rgba(99, 102, 241, 0.4);
-            --bg-deep: #0b0e14;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f8fafc;
-            --text-dim: #94a3b8;
-            --success: #22c55e; 
-            --danger: #ef4444;  
-            /* System Native Font Stack */
-            --system-fonts: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        --default-accent: #6366f1;
+        --accent: #6366f1;
+        --accent-glow: rgba(99, 102, 241, 0.4);
+        --bg-dark: #080a0f;
+        --term-bg: rgba(10, 12, 18, 0.98);
+        --border: rgba(99, 102, 241, 0.25);
+        --text: #e6edf3;
+        --bg-deep: #0b0e14;
+        --glass: rgba(255, 255, 255, 0.03);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --text-main: #f8fafc;
+        --text-dim: #94a3b8;
+        --success: #22c55e; 
+        --danger: #ef4444;
+        --system-fonts: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         }
+
+        body.stop-scrolling { height: 100%; overflow: hidden; }
 
         /* --- Maintenance Screen Style --- */
         #maintenance-screen {
@@ -139,8 +145,8 @@
             letter-spacing: 1px;
             color: var(--text-dim);
             z-index: 999;
-            backdrop-filter: blur(5px);
-            font-family: var(--system-fonts);
+                backdrop-filter: blur(5px);
+                font-family: var(--system-fonts);
         }
         .stat-item i { color: var(--accent); margin-right: 6px; }
         .stat-divider { width: 1px; height: 15px; background: var(--glass-border); }
@@ -257,7 +263,7 @@
 
         .library-item { margin-bottom: 15px; }
         .library-item p { font-size: 0.75rem; color: var(--text-dim); margin-top: 5px; margin-left: 5px; }
-
+        
         .btn-group { display: flex; flex-direction: column; gap: 10px; width: 100%; align-items: center; }
         .btn-outline { background: transparent; border: 1px solid var(--glass-border); color: var(--text-main); width: 100%; max-width: 100%; display: flex; align-items: center; justify-content: flex-start; gap: 10px; padding: 10px 15px; border-radius: 12px; transition: 0.3s; cursor: pointer; text-decoration: none; font-family: var(--system-fonts); font-size: 0.8rem; font-weight: 600; }
         .btn-outline:hover { background: var(--glass); border-color: var(--accent); }
@@ -274,16 +280,222 @@
             font-family: var(--system-fonts);
         }
 
+        /* Zero-Trust Security Layer (Client-Side Check) - START */
+        /* Minimal Glass Box */
+        .verify-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        /* Minimal Spinner */
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #a855f7;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Minimal Badge */
+        .status-badge {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .verifying { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+        .verified { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .unverified { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+        
+        /* Zero-Trust Security Layer (Client-Side Check) - END */
+        
+        /* Floating Trigger Button (Desktop First) */
+    .trigger {
+        position: fixed; 
+        bottom: 20px; 
+        right: 20px;
+        width: 55px; 
+        height: 55px; 
+        border-radius: 50%;
+        background: var(--accent); 
+        color: white;
+        display: flex; 
+        justify-content: center; 
+        align-items: center;
+        cursor: pointer; 
+        z-index: 10001; 
+        box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        font-size: 1.5rem;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .trigger:hover { transform: scale(1.1); }
+
+    /* Copilot Terminal Box (Desktop First) */
+    #terminal-box {
+        position: fixed; 
+        bottom: 90px; 
+        right: 25px;
+        width: 420px; 
+        height: 550px; 
+        max-width: calc(100vw - 40px);
+        max-height: calc(100vh - 120px); 
+        /* background: var(--term-bg);  */
+        background: rgba(99, 102, 241, 0.05);
+        border: 1px solid var(--border);
+        border-radius: 12px; 
+        display: flex; 
+        flex-direction: column;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+        transform: translateY(20px); 
+        opacity: 0; 
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 9999; 
+        overflow: hidden;
+        backdrop-filter: blur(5px);
+        font-family: var(--system-fonts);
+    }
+
+    #terminal-box.active { 
+        transform: translateY(0); 
+        opacity: 1; 
+        pointer-events: all; 
+    }
+
+
+    .header {
+        padding: 12px 18px; 
+        background: rgba(99, 102, 241, 0.08);
+        border-bottom: 1px solid var(--border);
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        font-size: 0.7rem; 
+        color: var(--accent); 
+        font-weight: bold; 
+        flex-shrink: 0;
+    }
+
+    #display { 
+        flex: 1; 
+        padding: 15px; 
+        overflow-y: auto; 
+        overflow-x: hidden;
+        font-family: var(--font-mono); 
+        scrollbar-width: thin; 
+        word-break: break-word; /* शब्दों को प्राकृतिक रूप से रैप करेगा */
+        overflow-wrap: anywhere;
+    }
+
+    .row { 
+        line-height: 1.5; 
+        font-size: 0.82rem; 
+        white-space: pre-wrap; 
+        color: var(--text); 
+        margin-bottom: 8px; 
+    }
+    
+    .user-row { color: var(--accent); font-weight: 500; }
+
+    .input-container {
+        padding: 12px 15px; 
+        border-top: 1px solid var(--border);
+        display: flex; 
+        align-items: center; 
+        flex-shrink: 0;
+        background: var(--term-bg);
+    }
+
+    .input-wrapper { 
+        position: relative; 
+        flex: 1; 
+        display: flex; 
+        align-items: center; 
+        overflow: hidden;
+    }
+
+    #cmd-input, #ghost-suggestion {
+        background: transparent; 
+        border: none; 
+        outline: none;
+        font-family: var(--font-mono); 
+        font-size: 0.85rem;
+        width: 100%;
+    }
+
+    #cmd-input { color: var(--text); position: relative; z-index: 2; }
+    #ghost-suggestion { 
+        color: rgba(255, 255, 255, 0.15); 
+        position: absolute; 
+        left: 0; 
+        z-index: 1; 
+        pointer-events: none; 
+        white-space: nowrap;
+    }
+
+    /* 📱 Responsive Adjustments for Mobile Devices (<= 480px) */
+    @media (max-width: 480px) {
+        .trigger {
+            bottom: 15px;
+            right: 15px;
+            width: 46px;
+            height: 46px;
+            font-size: 1.2rem;
+        }
+
+        #terminal-box {
+            right: 10px;
+            left: 10px;
+            bottom: 70px;
+            width: auto;
+            max-width: none;
+            height: 68vh;
+            border-radius: 14px;
+        }
+        
+        .row { font-size: 0.78rem; }
+        .header { padding: 10px 14px; }
+        .input-container { padding: 10px 12px; }
+    }
+        
         @media (max-width: 992px) { .container { grid-template-columns: 1fr; } body { padding-top: 150px; } }
+
+
     </style>
 </head>
 <body>
+    <div class="trigger" onclick="toggleTerminal()"><i class="fa-solid fa-ghost"></i></div>
 
+    <div id="terminal-box">
+        <div class="header"><span>CL9_CORE_v18.1</span><i class="fa-solid fa-xmark" onclick="toggleTerminal()" style="cursor:pointer"></i></div>
+        <div id="display"></div>
+        
+        <div class="input-container">
+            <span style="color:#58a6ff; margin-right:8px" id="user-prompt">></span>
+            <div class="input-wrapper">
+                <input type="text" id="ghost-suggestion" readonly tabindex="-1">
+                <input type="text" id="cmd-input" spellcheck="false" autocomplete="off" 
+                       placeholder="Type /help..." 
+                       oninput="handleAutocomplete()" onkeydown="handleKeys(event)">
+            </div>
+        </div>
+    </div>    
+    
     <div id="maintenance-screen">
         <div class="m-card">
             <i class="fa-solid fa-screwdriver-wrench"></i>
             <h1 style="font-weight: 800;">SYSTEM MAINTENANCE</h1>
-            <p style="color: var(--text-dim); margin-top: 10px;">Portal access is limited to Sundays.<br>Next session begins in:</p>
+            <p style="color: var(--text-dim); margin-top: 10px;">Portal access is limited for Sundays.<br>Next session begins in:</p>
             <div id="countdown-timer">
                 <div class="timer-unit"><span id="days">00</span><label>Days</label></div>
                 <div class="timer-unit"><span id="hours">00</span><label>Hours</label></div>
@@ -298,20 +510,21 @@
     </header>
 
     <div class="stats-bar">
-        <div class="stat-item"><i class="fa-solid fa-code-branch"></i> 3 REPOSITORIES</div>
+        <div class="stat-item"><i class="fa-solid fa-code-branch"></i> 9 REPOSITORIES</div>    
         <div class="stat-divider"></div>
-        <div class="stat-item"><i class="fa-solid fa-file-pdf"></i> 115 DOCUMENTS</div>
+        <div class="stat-item"><i class="fa-solid fa-file-pdf"></i> 111 DOCUMENTS</div>
         <div class="stat-divider"></div>
-        <div class="stat-item"><i class="fa-solid fa-circle-check"></i> v7.4 OPERATIONAL</div>
+        <div class="stat-item"><i class="fa-solid fa-circle-check"></i> v7.7 OPERATIONAL</div>
     </div>
 
     <div class="container">
         <main class="main-content">
             <div class="maintenance-notice">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>Cloud 9 is undergoing a strategic transformation.</span>
+                <span>AI Copilot v18.1 is currently in Beta Testing.</span>
             </div>
 
+            
             <section class="card">
                 <h2 style="font-weight: 800; letter-spacing: 1px; margin-bottom: 25px; text-transform: uppercase;">REPOSITORY FEEDS</h2>
                 <div class="project-grid">
@@ -362,7 +575,7 @@
                             <a href="https://github.com/kishan741i/notes_app" target="_blank" class="btn-outline" style="justify-content:center;"><i class="fa-brands fa-github"></i> Repository</a>
                         </div>
                     </div>
-
+                    
                     <div class="project-item">
                         <div class="tech-stack">
                             <span class="tech-tag">Bootstrap 5</span><span class="tech-tag">PHP</span><span class="tech-tag">MySQL</span>
@@ -378,6 +591,13 @@
         </main>
 
         <aside class="sidebar">
+            <!-- Zero-Trust Security Layer (Client-Side Check) -->
+            <div class="verify-box">
+                <div class="spinner" id="verifySpinner"></div>
+                <span id="statusText">Verifying...</span>
+                <span class="status-badge verifying" id="statusBadge">Verifying</span>
+            </div>
+            <!-- END -->
             <section class="card">
                 <h3 style="margin-bottom: 25px; font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase;">E-LIBRARY</h3>
                 <div class="news-feed">
@@ -419,47 +639,45 @@
                     </div>
                 </div>
             </section>
-
-            <section class="card">
-                <h3 style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase;">LATEST UPDATES</h3>
-                <div class="news-feed">
-                 <div class="news-item">
-                    <h4><span class="pulse-dot red-dot"></span>Adaptive Typography Engine</h4>
-                    <p>Portal ab automatically aapke device ke native fonts (Vivo, iOS, Windows) ko apply karta hai, jisse performance aur personalization behtar hoti hai.</p>
-                 </div>
-                 <div class="news-item">
-                    <h4><span class="pulse-dot red-dot"></span>Glassmorphism Engine 2.0</h4>
-                    <p> Improved background blur performance and real-time reflection mapping for window frames.</p>
-                 </div>
-                 <div class="news-item">
-                    <h4><span class="pulse-dot red-dot"></span>Zero-Latency File Explorer</h4>
-                    <p> Implementation of an "Instant-Fetch" logic for cloud storage, allowing users to browse remote files as if they were local.</p>
-                 </div>
-                 <div class="news-item">
-                    <h4><span class="pulse-dot red-dot"></span>Multi-Device Synchronization</h4>
-                    <p> Real-time state saving. If a user closes a window on their phone, it reflects immediately on the desktop view.</p>
-                 </div>
-                </div>
-            </section>
-            
-            <section class="card">
-    <h3 style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase;">FUTURE ROADMAP</h3>
-                <div class="news-feed">
-                    <div class="news-item">
-                        <h4><span class="pulse-dot green-dot"></span>AI Copilot Integration (Q3 2026)</h4>
-                        <p> A built-in terminal assistant that can execute cloud commands, organize files, or summarize documents using LLMs.</p>
-                    </div>
-                    <div class="news-item">
-                        <h4><span class="pulse-dot green-dot"></span>Zero-Trust Security Layer (Q4 2026)</h4>
-                        <p> Every app execution requires a "Silent Verify" check to ensure the cloud environment hasn't been compromised.</p>
-                    </div>
-                    <div class="news-item">
-                        <h4><span class="pulse-dot green-dot"></span>Voice-First Interface (2027)</h4>
-                        <p> Complete hands-free navigation using advanced NLP (Natural Language Processing).</p>
-                    </div>
-                </div>
-            </section>
         </aside>
+    </div>
+
+    <div class="container">
+        <section class="card">
+            <h3 style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase;">LATEST UPDATES</h3>
+            <div class="news-feed">
+                <div class="news-item">
+                   <h4><span class="pulse-dot red-dot"></span>Zero-Trust Security Layer</h4>
+                   <p>Client-side security protocol ensuring strict access controls and end-to-end data privacy directly on your browser.</p>
+                </div>
+   
+                <div class="news-item">
+                   <h4><span class="pulse-dot red-dot"></span>AI Copilot Integration</h4>
+                   <p>An intelligent terminal assistant designed to deliver instant search, smart command execution, and automated user support.</p>                </div>
+               </div>
+             <div class="news-item">
+                <h4><span class="pulse-dot red-dot"></span>Adaptive Typography Engine</h4>
+                <p>The portal now automatically applies your device's native fonts, enhancing both performance and personalization.</p>
+             </div>
+             <div class="news-item">
+                <h4><span class="pulse-dot red-dot"></span>Glassmorphism Engine 2.0</h4>
+                <p> Improved background blur performance and real-time reflection mapping for window frames.</p>
+             </div>
+        </section>
+        
+        <section class="card">
+            <h3 style="margin-bottom: 20px; font-size: 0.9rem; color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase;">FUTURE ROADMAP</h3>
+            <div class="news-feed">
+                <div class="news-item">
+                    <h4><span class="pulse-dot green-dot"></span>AI Copilot Integration (Q3 2026)</h4>
+                    <p> A built-in terminal assistant that can execute cloud commands, organize files, or summarize documents using LLMs.</p>
+                </div>
+                <div class="news-item">
+                    <h4><span class="pulse-dot green-dot"></span>Voice-First Interface (2027)</h4>
+                    <p> Complete hands-free navigation using advanced NLP (Natural Language Processing).</p>
+                </div>
+            </div>
+        </section>
     </div>
 
     <footer>
@@ -468,7 +686,7 @@
 
     <script>
         function openInDrive(id) { window.open(`https://drive.google.com/open?id=${id}`, '_blank'); }
-      /*const _0xk = atob("U05BUFBZX0FETUlOX0FDQ0VTU18yMDI2X1NFQ1JFVA==");
+        const _0xk = atob("U05BUFBZX0FETUlOX0FDQ0VTU18yMDI2X1NFQ1JFVA==");
         function checkMaintenance() {
             const params = new URLSearchParams(window.location.search);
             const adminKey = params.get("access");
@@ -479,11 +697,11 @@
             }
             const now = new Date();
             const day = now.getDay(); 
-            if (day !== 0) {
+            if (day === 0) {    
                 document.getElementById('maintenance-screen').style.display = 'flex';
                 document.body.style.overflow = 'hidden';
                 const target = new Date();
-                target.setDate(now.getDate() + (7 - day));
+                target.setDate(now.getDate() + 1);
                 target.setHours(0, 0, 0, 0);
                 const diff = target - now;
                 const d = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -500,7 +718,180 @@
             }
         }
         setInterval(checkMaintenance, 1000);
-        checkMaintenance();*/
+        checkMaintenance();
+
+        // Zero-Trust Security Layer (Client-Side Check) START 
+        const spinner = document.getElementById('verifySpinner');
+        const statusText = document.getElementById('statusText');
+        const statusBadge = document.getElementById('statusBadge');
+        let isLoaded = false;
+
+        // 5 Second Timeout - Unverified Check
+        const loadTimeout = setTimeout(() => {
+            if (!isLoaded) {
+                spinner.style.display = 'none';
+                statusText.textContent = 'Security Check Failed';
+                statusBadge.textContent = 'Unverified';
+                statusBadge.className = 'status-badge unverified';
+            }
+        }, 1000);
+
+        // Website Loaded Check
+        
+        
+        window.addEventListener('load', () => {
+            isLoaded = true;
+            clearTimeout(loadTimeout);
+            spinner.style.display = 'none';
+            statusText.textContent = 'Environment Secure';
+            statusBadge.textContent = 'Verified';
+            statusBadge.className = 'status-badge verified';
+        });
+
+
+        //Zero-Trust Security Layer (Client-Side Check) END
+
+        //AI Copilot Integration (Client Side)
+        const termInput = document.getElementById('cmd-input');
+        const ghostInput = document.getElementById('ghost-suggestion');
+        const termDisplay = document.getElementById('display');
+        const promptLabel = document.getElementById('user-prompt');
+        const body = document.body;
+
+        const MY_FOLDER_ID = "1mQKCQkERVlU5XAxbRgKUlhLDvM8cOOR6";
+        const COMMANDS = ["/summarize", "/todo", "/status", "/update", "/theme", "/calc", "/search", "/about", "/clear", "/help"];
+
+        let userName = localStorage.getItem("cl9_user_name");
+        let todos = JSON.parse(localStorage.getItem("cl9_todos") || "[]");
+        let cmdHistory = JSON.parse(sessionStorage.getItem("cl9_history") || "[]");
+        let historyIndex = -1;
+
+        window.onload = () => {
+            if (!userName) {
+                let inputName = prompt("Enter your name:", "");
+                userName = (inputName && inputName.trim() !== "") ? inputName.trim() : "Guest";
+                localStorage.setItem("cl9_user_name", userName);
+            }
+            boot();
+        };
+
+        function getTimeBasedGreeting() {
+            const hour = new Date().getHours();
+            if (hour < 12 && hour >= 5) return "Good morning";
+            if (hour < 17 && hour >= 12) return "Good afternoon";
+            if (hour < 21 && hour >= 17) return "Good evening";
+            return "Good night";
+        }
+
+        function boot() {
+            promptLabel.innerText = `${userName.toLowerCase()}@cl9:~$ `;
+            const greeting = getTimeBasedGreeting();
+            print(`${greeting}, ${userName}! System ready.`, "bot-row");
+        }
+
+        function toggleTerminal() { 
+            const box = document.getElementById('terminal-box');
+            box.classList.toggle('active'); 
+            body.classList.toggle('stop-scrolling', box.classList.contains('active'));
+            if (box.classList.contains('active')) termInput.focus(); 
+        }
+
+        function print(text, type, p = "") {
+            const div = document.createElement('div');
+            div.className = `row ${type}`;
+            div.innerHTML = p ? `<span style="color:#58a6ff">${p}</span> ${text}` : text;
+            termDisplay.appendChild(div);
+            termDisplay.scrollTop = termDisplay.scrollHeight;
+            return div;
+        }
+
+        function typeEffect(text, el) {
+            let i = 0;
+            function t() { 
+                if (i < text.length) { 
+                    el.innerHTML += text.charAt(i); 
+                    i++; 
+                    setTimeout(t, 10); 
+                    termDisplay.scrollTop = termDisplay.scrollHeight; 
+                } 
+            }
+            t();
+        }
+
+        function handleAutocomplete() {
+            const val = termInput.value.toLowerCase();
+            if (!val || !val.startsWith('/')) { ghostInput.value = ""; return; }
+            const match = COMMANDS.find(c => c.startsWith(val));
+            ghostInput.value = (match && val !== match) ? match : "";
+        }
+
+        function handleKeys(e) {
+            if (e.key === 'Tab' && ghostInput.value) { e.preventDefault(); termInput.value = ghostInput.value; ghostInput.value = ""; }
+            if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (cmdHistory.length > 0 && historyIndex < cmdHistory.length - 1) {
+                    historyIndex++; termInput.value = cmdHistory[cmdHistory.length - 1 - historyIndex];
+                }
+            }
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--; termInput.value = cmdHistory[cmdHistory.length - 1 - historyIndex];
+                } else if (historyIndex === 0) { historyIndex = -1; termInput.value = ""; }
+            }
+            if (e.key === 'Enter') execute();
+        }
+
+        function execute() {
+            const val = termInput.value.trim();
+            if(!val) return;
+            if (val !== cmdHistory[cmdHistory.length - 1]) {
+                cmdHistory.push(val);
+                sessionStorage.setItem("cl9_history", JSON.stringify(cmdHistory));
+            }
+            historyIndex = -1;
+            print(val, 'user-row', `${userName.toLowerCase()}@cl9:~$ `);
+            termInput.value = ''; ghostInput.value = "";
+            const botRow = print("", 'bot-row');
+            const args = val.toLowerCase().split(' ');
+            const cmd = args[0];
+
+            switch(cmd) {
+                case '/help':
+                    typeEffect(`CMDS:\n/summarize - Stats\n/todo      - Tasks\n/status    - System\n/update    - News\n/theme     - UI\n/calc      - Math\n/search    - Drive\n/about     - Specs\n/clear     - Flush`, botRow);
+                    break;
+                case '/summarize': typeEffect("Nodes synced. Python, React, Android archives ready.", botRow); break;
+                case '/search':
+                    const query = args.slice(1).join(' ');
+                    if(!query) return typeEffect("Usage: /search [query]", botRow);
+                    typeEffect(`Locating '${query}'...`, botRow);
+                    setTimeout(() => { window.open(`https://drive.google.com/drive/search?q=${encodeURIComponent(query)}%20parent:${MY_FOLDER_ID}`, '_blank'); }, 800);
+                    break;
+                case '/update': typeEffect(`[21-04] Exams schedule finalized.\n[19-04] React updated.`, botRow); break;
+                case '/theme':
+                    let color = args[1] || "#6366f1";
+                    document.documentElement.style.setProperty('--accent', color);
+                    typeEffect(`Palette shifted to ${color}.`, botRow);
+                    break;
+                case '/calc':
+                    try {
+                        const res = eval(args.slice(1).join('').replace(/[^-()\d/*+.]/g, ''));
+                        typeEffect(`Result: ${res}`, botRow);
+                    } catch { typeEffect("Error: Syntax failure.", botRow); }
+                    break;
+                case '/todo':
+                    const task = args.slice(1).join(' ');
+                    if(task) { todos.push(task); localStorage.setItem("cl9_todos", JSON.stringify(todos)); typeEffect("Entry logged.", botRow); }
+                    else { typeEffect(`TASKS:\n${todos.length ? todos.map((t,i)=>`[${i+1}] ${t}`).join('\n') : 'Memory empty.'}`, botRow); }
+                    break;
+                case '/about': typeEffect("SPECS:\n- File indexing\n- Shell v18.1\n- Neon Glass UI", botRow); break;
+                case '/status': typeEffect(`Optimal | Ahmedabad | User: ${userName}`, botRow); break;
+                case '/clear': termDisplay.innerHTML = ''; print("Buffer flushed.", "bot-row"); break;
+                default: typeEffect("Invalid command. Use /help", botRow);
+            }
+        }
     </script>
 </body>
 </html>
+<!-- 482: if (day !== 0) {
+486: target.setDate(now.getDate() + (7 - day)); --> 
