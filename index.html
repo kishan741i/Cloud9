@@ -757,7 +757,6 @@
         const termDisplay = document.getElementById('display');
         const promptLabel = document.getElementById('user-prompt');
         const body = document.body;
-
         const MY_FOLDER_ID = "1mQKCQkERVlU5XAxbRgKUlhLDvM8cOOR6";
         const COMMANDS = ["/summarize", "/todo", "/status", "/update", "/theme", "/calc", "/search", "/about", "/clear", "/help"];
 
@@ -863,9 +862,16 @@
                 case '/summarize': typeEffect("Nodes synced. Python, React, Android archives ready.", botRow); break;
                 case '/search':
                     const query = args.slice(1).join(' ');
-                    if(!query) return typeEffect("Usage: /search [query]", botRow);
-                    typeEffect(`Locating '${query}'...`, botRow);
-                    setTimeout(() => { window.open(`https://drive.google.com/drive/search?q=${encodeURIComponent(query)}%20parent:${MY_FOLDER_ID}`, '_blank'); }, 800);
+                    if (!query) return typeEffect("Usage: /search [query]", botRow);
+
+                    typeEffect(`Searching '${query}' in Master Folder...`, botRow);
+
+                    // यह पब्लिक फ़ोल्डर का डायरेक्ट सर्च URL है जो हर डिवाइस पर काम करेगा
+                    const driveUrl = `https://drive.google.com/drive/folders/${MY_FOLDER_ID}?q=${encodeURIComponent(query)}`;
+
+                    setTimeout(() => { 
+                        window.open(driveUrl, '_blank'); 
+                    }, 800);
                     break;
                 case '/update': typeEffect(`[21-04] Exams schedule finalized.\n[19-04] React updated.`, botRow); break;
                 case '/theme':
