@@ -452,6 +452,14 @@
         }
 
         @media (max-width: 992px) { .container { grid-template-columns: 1fr; } body { padding-top: 150px; } }
+        
+        /* Visitor badge ko baaki stats ki tarah match karne ke liye */
+        .visitor-badge-container img {
+            height: 18px;
+            vertical-align: middle;
+            background: transparent !important;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -487,9 +495,9 @@
     </header>
     
     <div class="stats-bar">
-        <div class="stat-item">
+        <div class="stat-item visitor-badge-container">
             <i class="fa-solid fa-users" style="color: var(--accent);"></i> 
-            <img src="https://api.visitorbadge.io/api/combined?path=kishan741i.Cloud9&label=ACTIVE%20VISITORS&countColor=%236366f1" style="vertical-align: middle; height: 20px;" />
+            <img src="https://api.visitorbadge.io/api/visitors?path=kishan741i.Cloud9&label=ACTIVE%20VISITORS&countColor=%236366f1" />
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item"><i class="fa-solid fa-code-branch"></i> 3 REPOSITORIES</div>
