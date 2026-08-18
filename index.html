@@ -489,7 +489,7 @@
     <div class="stats-bar">
         <div class="stat-item">
             <i class="fa-solid fa-users" style="color: var(--accent);"></i> 
-            <span id="visitor-count">Loading...</span> ACTIVE VISITORS
+            <img src="https://api.visitorbadge.io/api/combined?path=kishan741i.Cloud9&label=ACTIVE%20VISITORS&countColor=%236366f1" style="vertical-align: middle; height: 20px;" />
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item"><i class="fa-solid fa-code-branch"></i> 3 REPOSITORIES</div>
@@ -764,18 +764,6 @@
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
-        function fetchVisitorCount() {
-            fetch('https://api.countapi.xyz/hit/kishan741i-cloud9/visits')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('visitor-count').innerText = data.value;
-                })
-                .catch(error => {
-                    // Agar API block ho ya error aaye toh fallback count dikhaye
-                    document.getElementById('visitor-count').innerText = "125";
-                    });
-            }
-        fetchVisitorCount();
     </script>
 </body>
 </html>
