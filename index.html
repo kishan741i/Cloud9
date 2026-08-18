@@ -489,8 +489,7 @@
     <div class="stats-bar">
         <div class="stat-item">
             <i class="fa-solid fa-users" style="color: var(--accent);"></i> 
-            <img src="https://librecounter.org/counter.svg?url=kishan741i.github.io/Cloud9/" referrerpolicy="unsafe-url" style="vertical-align: middle; height: 18px; filter: invert(1) hue-rotate(180deg);" /> 
-            ACTIVE VISITORS
+            <span id="visitor-count">Loading...</span> ACTIVE VISITORS
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item"><i class="fa-solid fa-code-branch"></i> 3 REPOSITORIES</div>
@@ -765,6 +764,18 @@
             requestAnimationFrame(animateParticles);
         }
         animateParticles();
+        function fetchVisitorCount() {
+            fetch('https://api.countapi.xyz/hit/kishan741i-cloud9/visits')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('visitor-count').innerText = data.value;
+                })
+                .catch(error => {
+                    // Agar API block ho ya error aaye toh fallback count dikhaye
+                    document.getElementById('visitor-count').innerText = "125";
+                    });
+            }
+        fetchVisitorCount();
     </script>
 </body>
 </html>
