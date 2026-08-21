@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-    <link rel="icon" href="favicon.ico">    
+    <link rel="icon" href="favicon.ico">  
     <style>
         /* Attractive Modal Styling */
         .modal-full {
@@ -252,6 +252,7 @@
             z-index: -1;          /* Sabhi contents ke piche rahega */
             opacity: 0.6;
         }
+
         :root {
             --accent: #6366f1;
             --accent-glow: rgba(99, 102, 241, 0.4);
@@ -266,7 +267,7 @@
             --system-fonts: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
         }
 
-        
+
         /* --- Maintenance Notice Banner Style --- */
         .maintenance-notice {
             background: rgba(239, 68, 68, 0.1);
@@ -289,7 +290,7 @@
         ::-webkit-scrollbar-track { background: var(--bg-deep); }
         ::-webkit-scrollbar-thumb { background: linear-gradient(transparent, var(--accent), transparent); border-radius: 20px; border: 2px solid var(--bg-deep); }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
-        
+
         * {
             scrollbar-width: thin;
             scrollbar-color: var(--accent) var(--bg-deep);
@@ -380,7 +381,7 @@
         /* h2 { color: #f38ba8; } */
         h3 { color: #a6e3a1; }
         p { line-height: 1.6; font-size: 16px; color: #bac2de; }
-        
+
         a.link-btn, button.link-btn {
             display: inline-block;
             background: #89b4fa;
@@ -397,7 +398,7 @@
             transition: 0.2s;
         }
         a.link-btn:hover, button.link-btn:hover { background: #74c7ec; transform: translateY(-2px); }
-        
+
         /* --- Single Reusable Modal Popup Design --- */
         #demo-modal {
             display: none; 
@@ -406,10 +407,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.6); 
+            background: rgba(0, 0, 0, 0.75); 
             z-index: 1000; 
             justify-content: center;
             align-items: center;
+            padding: 0;
         }
 
         #demo-modal.show-modal {
@@ -432,33 +434,36 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
             display: flex;
             flex-direction: column;
+            box-sizing: border-box;
         }
 
         .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            flex-shrink: 0 !important;
+            margin-bottom: 8px;
             border-bottom: 1px solid #45475a;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
+            width: 100%;
         }
 
         .modal-header h2 {
             margin: 0;
             color: #a6e3a1;
-            font-size: 20px;
+            font-size: 18px;
         }
 
         .close-btn {
             background: #f38ba8;
             color: #11111b;
             border: none;
-            padding: 8px 15px;
+            padding: 6px 12px;
             font-size: 16px;
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.2s;
+            flex-shrink: 0;
         }
 
         .close-btn:hover {
@@ -470,7 +475,50 @@
             flex-grow: 1; 
             border: none;
             border-radius: 8px;
-            background-color: #fff; 
+            background-color: #fff;
+            min-height: 0;
+        }
+
+        /* --- Tablet View --- */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                height: 90vh;
+                padding: 12px;
+            }
+            .modal-header h2 {
+                font-size: 15px !important;
+            }
+        }
+
+        /* --- Specific Mobile Resolution (425px width aur 655px height ya usse choti screen) --- */
+        @media (max-width: 425px), (max-height: 655px) {
+            #demo-modal {
+                padding: 0;
+                align-items: flex-end; /* Choti height par bottom se align karega taaki cut na ho */
+            }
+            .modal-content {
+                width: 100%;
+                height: 100vh;
+                max-height: 655px; /* Exact height limit 655px set ki gayi hai */
+                border-radius: 12px 12px 0 0; /* Neeche se full aur upar se rounded */
+                padding: 10px;
+            }
+            .modal-header {
+                margin-bottom: 5px;
+                padding-bottom: 6px;
+            }
+            .modal-header h2 {
+                font-size: 12px !important;
+                max-width: 230px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            .close-btn {
+                padding: 4px 8px;
+                font-size: 13px;
+            }
         }
 
         /* live-demo ENDS */
@@ -490,7 +538,9 @@
 
         .stats-bar {
             position: fixed;
-            top: 75px; left: 0; right: 0;
+            top: 75px; 
+            left: 0; 
+            right: 0;
             height: 40px;
             background: rgba(99, 102, 241, 0.05);
             border-bottom: 1px solid var(--glass-border);
@@ -506,8 +556,35 @@
             backdrop-filter: blur(5px);
             font-family: var(--system-fonts);
         }
-        .stat-item i { color: var(--accent); margin-right: 6px; }
-        .stat-divider { width: 1px; height: 15px; background: var(--glass-border); }
+
+        .stat-item i { 
+            color: var(--accent); 
+            margin-right: 6px; 
+        }
+
+        .stat-divider { 
+            width: 1px; 
+            height: 15px; 
+            background: var(--glass-border); 
+        }
+
+        /* --- Mobile Responsive Fix --- */
+        @media (max-width: 768px) {
+            .stats-bar {
+                height: auto;
+                padding: 8px 12px;
+                justify-content: flex-start;
+                overflow-x: auto; /* Choti screen par horizontal scroll enable karne ke liye */
+                white-space: nowrap;
+                gap: 15px;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Scrollbar hide karna mobile par taaki clean dikhe */
+            .stats-bar::-webkit-scrollbar {
+                display: none;
+            }
+        }
 
         .logo {
             font-family: var(--system-fonts);
@@ -639,7 +716,7 @@
         }
 
         @media (max-width: 992px) { .container { grid-template-columns: 1fr; } body { padding-top: 150px; } }
-        
+
         /* Visitor badge ko baaki stats ki tarah match karne ke liye */
         .visitor-badge-container img {
             height: 18px;
@@ -647,8 +724,8 @@
             background: transparent !important;
             border-radius: 4px;
         }
-
     </style>
+       
 </head>
 <body>
     <!-- Attractive Modal -->
@@ -810,14 +887,15 @@
         <div class="stat-divider"></div>
         <div class="stat-item"><i class="fa-solid fa-circle-check"></i> v7.4 OPERATIONAL</div>
         <div class="stat-divider"></div>
-        <div class="stat-item" ><a<a onclick="openModal()" class="active"><i class="fa-solid fa-book-open"></i> E-LIBRARY PREVIEW</a></div>
+        <div class="stat-item" ><a onclick="openModal()" class="active"><i class="fa-solid fa-book-open"></i> E-LIBRARY PREVIEW</a></div>
     </div>
 
     <div class="container">
         <main class="main-content">
             <div class="maintenance-notice">
                 <i class="fa-solid fa-circle-exclamation"></i>
-                <span>Cloud 9 is undergoing a strategic transformation.</span>
+                <span>
+                    <a style="color: var(--danger);" href="https://kishan741i.github.io/3d-model/">3D-model is now fully developed.</a></span>
             </div>
 
             <section class="card">
@@ -973,7 +1051,7 @@
     </footer>
 
     <script>
-        function openModal() {
+                function openModal() {
             document.getElementById("elibModal").style.display = "block";
             document.body.style.overflow = "hidden";
         }
@@ -1026,17 +1104,27 @@
             }
         }
 
-        //  sabhi repositories ke liye dynamic
         function openDemo(demoUrl, projectTitle) {
             document.getElementById('demo-iframe').src = demoUrl;
             document.getElementById('demo-title').innerText = "Live Demo: " + projectTitle;
             document.getElementById('demo-modal').classList.add('show-modal');
-            document.getElementById('main-wrapper').classList.add('blur-background');
+            
+            // Background scroll rokne ke liye
+            document.body.style.overflow = 'hidden'; 
+        
+            const mainWrapper = document.getElementById('main-wrapper');
+            if(mainWrapper) mainWrapper.classList.add('blur-background');
         }
-
+        
         function closeDemo() {
             document.getElementById('demo-modal').classList.remove('show-modal');
-            document.getElementById('main-wrapper').classList.remove('blur-background');
+            
+            // Background scroll wapas chalu karne ke liye
+            document.body.style.overflow = 'auto'; 
+        
+            const mainWrapper = document.getElementById('main-wrapper');
+            if(mainWrapper) mainWrapper.classList.remove('blur-background');
+        
             setTimeout(() => {
                 document.getElementById('demo-iframe').src = "";
             }, 300);
@@ -1047,7 +1135,7 @@
         function openInDrive(id) { window.open(`https://drive.google.com/open?id=${id}`, '_blank'); }
         
         // Admin key bypass ke liye (agar zaroorat ho)
-        const _0xk = atob("Q1hMMjQxMg==");
+        const _0xk = atob("U05BUFBZX0FETUlOX0FDQ0VTU18yMDI2X1NFQ1JFVA==");
         
         function checkSundayRedirect() {
             const params = new URLSearchParams(window.location.search);
@@ -1062,7 +1150,7 @@
             const day = now.getDay(); // 0 matlab Sunday hota hai
             
             // Agar Sunday hai toh is link par redirect kar do
-            if (day !== 0) {
+            if (day === 0) {
                 window.location.href = "http://kishan741i.github.io/3d-model";
             }
         }
